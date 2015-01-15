@@ -25,6 +25,13 @@ task 'build', 'Compile all CoffeeScript files', ->
       process.exit 1 # abort npm packaging
     util.log "Compiled CoffeeScript."
 
+  # build native addon
+  exec "node-gyp build", (err, stdout) ->
+    if err
+        util.log "node-gyp compilation Failed - \n#{stdout}"
+        process.exit 1 # abort npm packaging
+    util.log "node-gyp compilation - \n#{stdout}"
+
 task 'test', 'Run the Jasmine tests', ->
   exec "#{jasmine} --color --coffee --verbose spec/", (err, stdout, stderr) ->
     if err
